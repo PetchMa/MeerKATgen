@@ -5,8 +5,8 @@ from random import random
 from utils import distance, gaussian
 from utils import construct_guassian_adj, construct_distance_adj
 from utils import move_point_guassian
-from utils import generate_fake_background
-from utils import generate_signal_real_background
+from utils import generate_multiple_signal_no_background
+from utils import generate_multiple_signal_real_background, calc_rfi_snr 
 from visualizations import visualize_connection
 from numba import jit
 
@@ -17,7 +17,6 @@ class Observation(object):
     '''
     def __init__(self,
                  num_beams=None,
-                 
                  fchans=None,
                  tchans=None,
                  df=2.7939677238464355*u.Hz,
@@ -26,7 +25,27 @@ class Observation(object):
                  ascending=False,
                  data=None,
                  **kwargs):
-    
+        
+        self.num_beams = num_beams
+        self.fchans = fchans
+        self.tchans = tchans 
+        self.df = df
+        self.dt = dt 
+        self.fch1 = fch1
+        self.telescope_sigma = telescope_sigma
+        self.RFI_POINTS = RFI_POINTS # list of RFI parameters
+
+        self.data = np.zeros((self.num_beams, self.tchans, self.fchans))
+        self.coordinates = self.simulate_points(self.num_beams)
+        self.adj_matrix = construct_guassian_adj(self.coordinates, self.telescope_sigma )
+        # inject RFI points 
+        if self.RFI_POINTS != None:
+            for POINT in self.RFI_POINTS:
+                #point holds data about the RFI parameters
+                rfi_location, rfi_deviation, start_index, snr, drift,  width, mean = POINT
+                
+
+
     @jit
     def simulate_points(self, num):
          """
@@ -46,27 +65,9 @@ class Observation(object):
             coordinates[i,1] = 2*random()-1
         return coordinates
 
-
-
-    def model_RFI(self, RFI_POINT, sigma, simulated_points):
-        size = 1000
-        sigma_x = 10
-        sigma_y = sigma_x
-
-        x = np.linspace(-1,1, size)
-        y = np.linspace(-1, 1, size)
-        combine = np.zeros((size,2))
-        for i in range(size):
-            combine[i,:] = distance([x[i],y[i]], RFI_POINT)
-        x_i = combine[:,0]
-        y_i = combine[:,1]
-        x_i,y_i = np.meshgrid(x_i,y_i)
-        z = (1/(2*np.pi*sigma_x*sigma_y) * np.exp(-(x_i**2/(2*sigma_x**2)
-            + y_i**2/(2*sigma_y**2))))
-        plt.figure(figsize=(10,8))
+    def create_RFI_observations(self, RFI_POINT, deviation, coordinates, snr_base=30):
         
-        plt.contourf(x, y, z, cmap='Reds')
-        plt.scatter(simulated_points[:,0],simulated_points[:,1], s=5)
-        plt.grid()
-        plt.show()   
+        
+
+          
     

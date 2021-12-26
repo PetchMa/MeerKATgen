@@ -124,7 +124,7 @@ def move_point_guassian(coordinates, adj_matrix, point, new_location, sigma_beam
     return coordinates, adj_matrix
 
 
-def generate_signal_no_background(start_index, 
+def generate_single_signal_no_background(start_index, 
                                 snr,
                                 drift,
                                 width,
@@ -168,9 +168,53 @@ def generate_signal_no_background(start_index,
                             stg.constant_bp_profile(level=1))
     return frame.data
 
+def generate_multiple_signal_no_background(start_index, 
+                                snr,
+                                drift,
+                                width,
+                                mean,
+                                num_freq_chans = 256,
+                                num_time_chans = 16,
+                                df = 2.7939677238464355*u.Hz,
+                                dt =  18.253611008*u.s,
+                                fch1 = 6095.214842353016*u.MHz,
+                                ):
+    """
+    generate MULTIPLE signal
 
+    Parameters
+    ----------
+    start_index, 
+    snr: SNR of injected signal
+    drift : drift rate of signal
+    width :width of the signal in  [Hz]
+    mean : average background noise
+    num_freq_chans : number of freq channels in index
+    num_time_chans : number of time channels in index
+    df : freq resolution in the data
+    dt : time resolution in data
+    fch1 : start of frequency channel 
+    Returns
+    -------
+    Distance : 
+        spectrogram of fake inject data
+    """   
+    frame = stg.Frame(fchans=num_freq_chans*u.pixel,
+                    tchans=num_time_chans*u.pixel,
+                    df=df,
+                    dt=dt,
+                    fch1 = fch1)
+    noise = frame.add_noise(x_mean=mean, noise_type='chi2')
 
-def generate_signal_real_background(start_index, 
+    for i in range(len(snr)):
+        signal = frame.add_signal(stg.constant_path(f_start=frame.get_frequency(index=start_index[i]),
+                                                    drift_rate=drift[i]*u.Hz/u.s),
+                                stg.constant_t_profile(level=frame.get_intensity(snr[i])),
+                                stg.gaussian_f_profile(width=width[i]*u.Hz),
+                                stg.constant_bp_profile(level=1))
+    return frame.data
+
+def generate_single_signal_real_background(start_index, 
                                 snr,
                                 drift,
                                 width,
@@ -208,7 +252,6 @@ def generate_signal_real_background(start_index,
                     dt=dt,
                     fch1 = fch1,
                     data = background)
-    noise = frame.add_noise(x_mean=mean, noise_type='chi2')
     signal = frame.add_signal(stg.constant_path(f_start=frame.get_frequency(index=start_index),
                                                 drift_rate=drift*u.Hz/u.s),
                             stg.constant_t_profile(level=frame.get_intensity(snr)),
@@ -216,18 +259,68 @@ def generate_signal_real_background(start_index,
                             stg.constant_bp_profile(level=1))
     return frame.data
 
+def generate_multiple_signal_real_background(start_index, 
+                                snr,
+                                drift,
+                                width,
+                                mean,
+                                num_freq_chans = 256,
+                                num_time_chans = 16,
+                                df = 2.7939677238464355*u.Hz,
+                                dt =  18.253611008*u.s,
+                                fch1 = 6095.214842353016*u.MHz,
+                                ):
+    """
+    generate MULTIPLE signal
 
-
-def generate_fake_background(start, snr, drift,  width, background):
-  frame = stg.Frame(fchans=256*u.pixel,
-                    tchans=16*u.pixel,
-                    df=2.7939677238464355*u.Hz,
-                    dt=18.253611008*u.s,
-                    fch1=6095.214842353016*u.MHz,
+    Parameters
+    ----------
+    start_index, 
+    snr: SNR of injected signal
+    drift : drift rate of signal
+    width :width of the signal in  [Hz]
+    mean : average background noise
+    num_freq_chans : number of freq channels in index
+    num_time_chans : number of time channels in index
+    df : freq resolution in the data
+    dt : time resolution in data
+    fch1 : start of frequency channel 
+    Returns
+    -------
+    Distance : 
+        spectrogram of fake inject data
+    """   
+    frame = stg.Frame(fchans=num_freq_chans*u.pixel,
+                    tchans=num_time_chans*u.pixel,
+                    df=df,
+                    dt=dt,
+                    fch1 = fch1,
                     data = background)
-  signal = frame.add_signal(stg.constant_path(f_start=frame.get_frequency(index=start),
-                                              drift_rate=drift*u.Hz/u.s),
-                            stg.constant_t_profile(level=frame.get_intensity(snr)),
-                            stg.gaussian_f_profile(width=width*u.Hz),
-                            stg.constant_bp_profile(level=1))
-  return frame.data
+    for i in range(len(snr)):
+        signal = frame.add_signal(stg.constant_path(f_start=frame.get_frequency(index=start_index[i]),
+                                                    drift_rate=drift[i]*u.Hz/u.s),
+                                stg.constant_t_profile(level=frame.get_intensity(snr[i])),
+                                stg.gaussian_f_profile(width=width[i]*u.Hz),
+                                stg.constant_bp_profile(level=1))
+    return frame.data
+
+
+def calc_rfi_snr(RFI_POINT, deviation, coordinates, snr_base=30):
+    """
+    calculate all SNR of RFI signal
+
+    Parameters
+    ----------
+    RFI_POINT : single R^2 vector for where the signal originate from 
+    deviation : signal decay as standard deviation
+    coordinates : coordinates of beams 
+    snr_base : the base SNR of the RFI signal
+    Returns
+    -------
+    Distance : 
+        list of RFI signals as a function of Guassian and distance to the point
+    """   
+    SNR_vals =[]
+    for i in range(simulated_points.shape[0]):
+        SNR_vals.append(gaussian(distance(RFI_POINT, simulated_points[i,:]), 0,deviation)*snr_base)
+    return SNR_vals
