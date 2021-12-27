@@ -1,6 +1,5 @@
 setuptools
 wheel
-ez_setup
 scipy  
 matplotlib
 pandas
