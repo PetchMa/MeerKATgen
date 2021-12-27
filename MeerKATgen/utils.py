@@ -3,6 +3,8 @@ import astropy
 import matplotlib.pyplot as plt
 from random import random
 from numba import jit
+from astropy import units as u
+import setigen as stg
 
 
 @jit(nopython=True)
@@ -23,7 +25,7 @@ def distance(x1,x2):
 
 @jit(nopython=True)
 def gaussian(x, mu, sig):
-        """
+    """
     Compute 1-D Guassian 
 
     Parameters
@@ -34,14 +36,13 @@ def gaussian(x, mu, sig):
     Returns
     -------
     Distance : 
-        guassian evaluated at x 
+    guassian evaluated at x 
     """
     return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
 
-
 @jit(nopython=True)
 def construct_guassian_adj(coordinates, sigma_beam ):
-     """
+    """
     Construct Guassian Adjacency Matrix 
 
     Parameters
@@ -53,20 +54,20 @@ def construct_guassian_adj(coordinates, sigma_beam ):
     Distance : 
         Adjacency matrix weighted by guassian function 
     """
-  adj_matrix = np.zeros((64,64))
-  for i in range(adj_matrix.shape[0]):
-    x_1 = coordinates[i,:]
-    for j in range(adj_matrix.shape[1]):
-      x_n = coordinates[j,:]
-      # We compute the distance and then use that to sample from guassian 
-      # centers it at 0 to give it the guassian radius 
-      adj_matrix[i,j]=gaussian(distance(x_1,x_n),0, sigma_beam)
-  return adj_matrix 
+    adj_matrix = np.zeros((64,64))
+    for i in range(adj_matrix.shape[0]):
+        x_1 = coordinates[i,:]
+        for j in range(adj_matrix.shape[1]):
+            x_n = coordinates[j,:]
+            # We compute the distance and then use that to sample from guassian 
+            # centers it at 0 to give it the guassian radius 
+            adj_matrix[i,j]=gaussian(distance(x_1,x_n),0, sigma_beam)
+    return adj_matrix 
 
 
 @jit(nopython=True)
 def construct_distance_adj(coordinates, sigma_beam, func=None ):
-     """
+    """
     Construct arbitrary Adjacency Matrix 
 
     Parameters
@@ -84,23 +85,23 @@ def construct_distance_adj(coordinates, sigma_beam, func=None ):
         for i in range(adj_matrix.shape[0]):
             x_1 = coordinates[i,:]
             for j in range(adj_matrix.shape[1]):
-            x_n = coordinates[j,:]
-            # We compute the distance and then use that to sample from arbitrary func 
-            adj_matrix[i,j]=func(distance(x_1,x_n),0, sigma_beam)
+                x_n = coordinates[j,:]
+                # We compute the distance and then use that to sample from arbitrary func 
+                adj_matrix[i,j]=func(distance(x_1,x_n),0, sigma_beam)
         return adj_matrix
     else:
         adj_matrix = np.zeros((64,64))
         for i in range(adj_matrix.shape[0]):
             x_1 = coordinates[i,:]
             for j in range(adj_matrix.shape[1]):
-            x_n = coordinates[j,:]
-            # We compute the distance and distance is the weight
-            adj_matrix[i,j]=distance(x_1,x_n)
+                x_n = coordinates[j,:]
+                # We compute the distance and distance is the weight
+                adj_matrix[i,j]=distance(x_1,x_n)
         return adj_matrix
 
 
 def move_point_guassian(coordinates, adj_matrix, point, new_location, sigma_beam):
-         """
+    """
     Move point and recalculate Adjacency Matrix 
 
     Parameters
