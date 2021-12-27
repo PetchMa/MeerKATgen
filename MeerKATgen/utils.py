@@ -219,7 +219,6 @@ def generate_single_signal_real_background(start_index,
                                 snr,
                                 drift,
                                 width,
-                                mean,
                                 background,
                                 num_freq_chans = 256,
                                 num_time_chans = 16,
@@ -260,7 +259,7 @@ def generate_single_signal_real_background(start_index,
                             stg.constant_bp_profile(level=1))
     return frame.data
 
-def generate_multiple_signal_real_background(start_index, snr, drift, width, mean,
+def generate_multiple_signal_real_background(start_index, snr, drift, width,background,
                                                         num_freq_chans = 256,
                                                         num_time_chans = 16,
                                                         df = 2.7939677238464355*u.Hz,

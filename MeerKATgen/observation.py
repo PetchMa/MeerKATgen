@@ -56,7 +56,7 @@ class Observation(object):
             self.labels = np.zeros((self.num_beams)) 
             self.adj_matrix = construct_guassian_adj(self.coordinates, self.telescope_sigma )
             # inject RFI points 
-            self.generate_complete_observation()        
+            self.generate_complete_observation_real()        
 
     def simulate_points(self, num):
         """
@@ -112,19 +112,12 @@ class Observation(object):
         SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width = self.SETI
 
         relative_RFI_SNR = np.array(self.construct_RFI_snr(rfi_location, rfi_deviation, self.coordinates, rfi_snr))
-        print(relative_RFI_SNR.shape)
         for i in range(self.num_beams):
             rfi_snr_index = relative_RFI_SNR[:,i].tolist()
-            print(rfi_snr_index)
             if i in SETI_INDEX:
                 start_index = deepcopy(rfi_start_index) + seti_start_index
-          
                 snr =  deepcopy(rfi_snr_index) + seti_snr
-           
-
                 drift =  deepcopy(rfi_drift) + seti_drift
-          
-
                 width =  deepcopy(rfi_width) + seti_width
                 
 
@@ -169,7 +162,7 @@ class Observation(object):
         relative_RFI_SNR = np.array(self.construct_RFI_snr(rfi_location, rfi_deviation, self.coordinates, rfi_snr))
 
         for i in range(self.num_beams):
-            rfi_snr_index = relative_RFI_SNR[i,:].tolist()
+            rfi_snr_index = relative_RFI_SNR[:,i].tolist()
             if i in SETI_INDEX:
                 start_index = deepcopy(rfi_start_index) + seti_start_index
                 # start_index.append(seti_start_index)
@@ -187,7 +180,7 @@ class Observation(object):
                                     snr,
                                     drift,
                                     width,
-                                    mean,
+                                    background = self.data[i,:,:],
                                     num_freq_chans = self.fchans,
                                     num_time_chans = self.tchans,
                                     df = 2.7939677238464355*u.Hz,
@@ -199,7 +192,7 @@ class Observation(object):
                                     rfi_snr_index,
                                     rfi_drift,
                                     rfi_width,
-                                    rfi_mean,
+                                    background = self.data[i,:,:],
                                     num_freq_chans = self.fchans,
                                     num_time_chans = self.tchans,
                                     df = 2.7939677238464355*u.Hz,
