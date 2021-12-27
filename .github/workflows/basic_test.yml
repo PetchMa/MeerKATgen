@@ -6,9 +6,9 @@ name: basic_test
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ peterma-dev ]
+    branches: [ main ]
   pull_request:
-    branches: [ peterma-dev ]
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -25,6 +25,7 @@ jobs:
     steps:
 
       - uses: actions/checkout@v1
-      
+      - name: build requirements
+        run: pip install requirements.txt
       - name: run test
         run: python3 execute_test.py
