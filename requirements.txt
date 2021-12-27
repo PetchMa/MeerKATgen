@@ -8,4 +8,8 @@ numpy
 blimpy
 setigen
 astropy
+<<<<<<< HEAD
 numba
+=======
+numba
+>>>>>>> 2a137be39ea8daa9d5370c3f0fc09c49b3d340f8
