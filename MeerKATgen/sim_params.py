@@ -1,7 +1,7 @@
 import numpy as np
 import random
 import jax 
-
+from numba import jit
 def random_RFI_params(num_signals=None, seeds=None):
     if num_signals == None:
         num_signals = random.randint(1,5) 
@@ -26,6 +26,7 @@ def random_RFI_params(num_signals=None, seeds=None):
         rfi_width.append(30*random.random()+10)
     
     return [rfi_location, rfi_deviation, rfi_start_index, rfi_snr, rfi_drift,  rfi_width, rfi_mean]
+
 
 def blank_RFI_params(num_signals=None, seeds=None):
     if num_signals == None:

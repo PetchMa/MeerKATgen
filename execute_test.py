@@ -3,7 +3,7 @@ from MeerKATgen.sim_params import random_SETI_params, random_RFI_params
 from MeerKATgen.create_dataset import create_simulated_obs_true_simulated
 from MeerKATgen.create_dataset import create_simulated_obs_single_true_simulated
 from MeerKATgen.create_dataset import create_simulated_obs_false_simulated
-from MeerKATgen.create_dataset import vectorize
+from MeerKATgen.create_dataset import parallel
 """
 Tests to run with github actions  
 """
@@ -44,7 +44,10 @@ create_simulated_obs_false_simulated()
 print("batched simulation single true") 
 create_simulated_obs_single_true_simulated()
 print("passed")
-print("test vectorize")
-# vectorize(10, create_simulated_obs_true_simulated)
+print("test multicore")
+from time import time
+start = time()
+parallel(10, create_simulated_obs_true_simulated,1)
+print(time()-start)
 # vectorize(create_simulated_obs_false_simulated, 10)
 # vectorize(create_simulated_obs_true_simulated, 10)

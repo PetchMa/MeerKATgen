@@ -1,9 +1,10 @@
 import numpy as np
-from jax import vmap, jit
+from jax import pmap, jit, vmap
 
 from .observation import Observation
 from .sim_params import random_SETI_params, random_RFI_params 
 from .sim_params import blank_RFI_params, blank_SETI_params 
+from multiprocessing import Pool
 
 def create_simulated_obs(num_beams,fchans, tchans, telescope_sigma , SETI, RFI, obs_data= None):
     if obs_data == None: 
@@ -166,6 +167,7 @@ def create_simulated_obs_false_empty(num_beams,fchans, tchans, telescope_sigma ,
     return [obs.extract_all()]
 
 
-def vectorize(num, func):
-    iteration = np.ones((num))
-    return vmap(func, in_axes =(None, None, None,None,None, 0))(iteration)
+def parallel(num, func, cores = 20):
+    a_pool = Pool(cores)
+    result = a_pool.map(func, range(num))
+    return result

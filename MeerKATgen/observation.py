@@ -75,7 +75,7 @@ class Observation(object):
             coordinates[i,0] = 2*random()-1
             coordinates[i,1] = 2*random()-1
         return coordinates
-
+    
     def construct_RFI_snr(self, RFI_POINT, deviation, coordinates, snr):
         """
         Generate SNR for RFI signals

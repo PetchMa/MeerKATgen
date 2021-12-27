@@ -9,4 +9,3 @@ blimpy
 setigen
 astropy
 numba
-jax
