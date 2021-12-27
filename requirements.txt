@@ -8,3 +8,5 @@ numpy
 blimpy
 setigen
 astropy
+numba
+jax
