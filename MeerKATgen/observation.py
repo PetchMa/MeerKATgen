@@ -76,6 +76,27 @@ class Observation(object):
             coordinates[i,1] = 2*random()-1
         return coordinates
 
+    def construct_RFI_snr(self, RFI_POINT, deviation, coordinates, snr):
+        """
+        Generate SNR for RFI signals
+        
+        Parameters
+        ----------
+         RFI_POINT : location of RFI
+         deviation : decay or deviation factor 
+         coordinates: COORDINATE of beams 
+         snr : list of SNR orign of RFI         
+        Returns
+        -------
+        returns the relative/experienced RFI SNR. 
+        """
+        RFI_POINT =np.array(RFI_POINT)
+        complete_list = []
+        for i in range(len(RFI_POINT)):
+            complete_list.append(calc_rfi_snr(RFI_POINT[i], deviation[i], np.array(coordinates), snr[i]))
+        return np.array(complete_list)
+
+
     def generate_complete_observation_blank(self):
         """
         Generate complete stack of signals
@@ -90,19 +111,22 @@ class Observation(object):
         rfi_location, rfi_deviation, rfi_start_index, rfi_snr, rfi_drift,  rfi_width, rfi_mean = self.RFI
         SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width = self.SETI
 
+        relative_RFI_SNR = np.array(self.construct_RFI_snr(rfi_location, rfi_deviation, self.coordinates, rfi_snr))
+        print(relative_RFI_SNR.shape)
         for i in range(self.num_beams):
+            rfi_snr_index = relative_RFI_SNR[:,i].tolist()
+            print(rfi_snr_index)
             if i in SETI_INDEX:
                 start_index = deepcopy(rfi_start_index) + seti_start_index
-                # start_index.append(seti_start_index)
-
-                snr =  deepcopy(rfi_snr) + seti_snr
-                # snr.append(seti_snr)
+          
+                snr =  deepcopy(rfi_snr_index) + seti_snr
+           
 
                 drift =  deepcopy(rfi_drift) + seti_drift
-                # drift.append(seti_drift)
+          
 
                 width =  deepcopy(rfi_width) + seti_width
-                # width.append(seti_width)
+                
 
                 self.data[i,:,:] = generate_multiple_signal_no_background(start_index, 
                                     snr,
@@ -117,7 +141,7 @@ class Observation(object):
                 self.labels[i] = 1 # update the labels as true here 
             else:
                 self.data[i,:,:] = generate_multiple_signal_no_background(rfi_start_index, 
-                                    rfi_snr,
+                                    rfi_snr_index,
                                     rfi_drift,
                                     rfi_width,
                                     rfi_mean,
@@ -142,13 +166,15 @@ class Observation(object):
         """
         rfi_location, rfi_deviation, rfi_start_index, rfi_snr, rfi_drift,  rfi_width, rfi_mean = self.RFI
         SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width = self.SETI
+        relative_RFI_SNR = np.array(self.construct_RFI_snr(rfi_location, rfi_deviation, self.coordinates, rfi_snr))
 
         for i in range(self.num_beams):
+            rfi_snr_index = relative_RFI_SNR[i,:].tolist()
             if i in SETI_INDEX:
                 start_index = deepcopy(rfi_start_index) + seti_start_index
                 # start_index.append(seti_start_index)
 
-                snr =  deepcopy(rfi_snr) + seti_snr
+                snr =  deepcopy(rfi_snr_index) + seti_snr
                 # snr.append(seti_snr)
 
                 drift =  deepcopy(rfi_drift) + seti_drift
@@ -170,7 +196,7 @@ class Observation(object):
                 self.labels[i] = 1 # update the labels as true here 
             else:
                 self.data[i,:,:] = generate_multiple_signal_real_background(rfi_start_index, 
-                                    rfi_snr,
+                                    rfi_snr_index,
                                     rfi_drift,
                                     rfi_width,
                                     rfi_mean,

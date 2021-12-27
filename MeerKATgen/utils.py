@@ -260,17 +260,13 @@ def generate_single_signal_real_background(start_index,
                             stg.constant_bp_profile(level=1))
     return frame.data
 
-def generate_multiple_signal_real_background(start_index, 
-                                snr,
-                                drift,
-                                width,
-                                mean,
-                                num_freq_chans = 256,
-                                num_time_chans = 16,
-                                df = 2.7939677238464355*u.Hz,
-                                dt =  18.253611008*u.s,
-                                fch1 = 6095.214842353016*u.MHz,
-                                ):
+def generate_multiple_signal_real_background(start_index, snr, drift, width, mean,
+                                                        num_freq_chans = 256,
+                                                        num_time_chans = 16,
+                                                        df = 2.7939677238464355*u.Hz,
+                                                        dt =  18.253611008*u.s,
+                                                        fch1 = 6095.214842353016*u.MHz,
+                                                        ):
     """
     generate MULTIPLE signal
 
@@ -322,6 +318,6 @@ def calc_rfi_snr(RFI_POINT, deviation, coordinates, snr_base=30):
         list of RFI signals as a function of Guassian and distance to the point
     """   
     SNR_vals =[]
-    for i in range(simulated_points.shape[0]):
-        SNR_vals.append(gaussian(distance(RFI_POINT, simulated_points[i,:]), 0,deviation)*snr_base)
+    for i in range(coordinates.shape[0]):
+        SNR_vals.append(gaussian(distance(RFI_POINT, coordinates[i,:]), 0,deviation)*snr_base)
     return SNR_vals
