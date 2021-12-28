@@ -1,0 +1,17 @@
+Metadata-Version: 1.1
+Name: MeerKATgen
+Version: 0.0.1
+Summary: MeerKAT Radio Telescope simulation data generator
+Home-page: UNKNOWN
+Author: Peter Xiangyuan Ma (PetchMa)
+Author-email: <peterxy.ma@gmail.com>
+License: UNKNOWN
+Description: UNKNOWN
+Keywords: python,simulation,radio telescope
+Platform: UNKNOWN
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows

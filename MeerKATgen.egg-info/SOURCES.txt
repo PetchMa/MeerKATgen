@@ -1,0 +1,13 @@
+README.md
+setup.py
+MeerKATgen/__init__.py
+MeerKATgen/create_dataset.py
+MeerKATgen/observation.py
+MeerKATgen/sim_params.py
+MeerKATgen/utils.py
+MeerKATgen/visualizations.py
+MeerKATgen.egg-info/PKG-INFO
+MeerKATgen.egg-info/SOURCES.txt
+MeerKATgen.egg-info/dependency_links.txt
+MeerKATgen.egg-info/requires.txt
+MeerKATgen.egg-info/top_level.txt
