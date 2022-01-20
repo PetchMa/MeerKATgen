@@ -21,6 +21,7 @@ def distance(x1,x2):
     Distance : 
         Distance 
     """
+
     return np.linalg.norm(x1-x2)
 
 @jit(nopython=True)

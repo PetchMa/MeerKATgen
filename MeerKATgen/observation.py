@@ -27,18 +27,20 @@ class Observation(object):
                  dt=18.253611008*u.s,
                  fch1=6*u.GHz,
                  ascending=False,
-                 telescope_sigma = None,
                  SETI = None,
                  obs_data=None,
+                 telescope_beam_width = 0.6,
+                 beamlet_width = 0.1,
                  **kwargs):
         
-        self.num_beams = num_beams
-        self.fchans = fchans
-        self.tchans = tchans 
-        self.df = df
-        self.dt = dt 
-        self.fch1 = fch1
-        self.telescope_sigma = telescope_sigma
+        self.num_beams = num_beams # number of beams 
+        self.fchans = fchans    # number of frequency bins
+        self.tchans = tchans  # number of time bins
+        self.df = df # resolution in freq 
+        self.dt = dt # resolution in time 
+        self.fch1 = fch1 # start frequency 
+        self.telescope_beam_width =telescope_beam_width #global beam width
+        self.beamlet_width = beamlet_width  # individual beam width 
         self.SETI = SETI 
         
 
@@ -46,12 +48,12 @@ class Observation(object):
             self.data = np.zeros((self.num_beams, self.tchans, self.fchans))
             self.labels = np.zeros((self.num_beams))
             self.coordinates = self.simulate_points(self.num_beams)
-            self.adj_matrix = construct_guassian_adj(self.coordinates, self.telescope_sigma )
+            self.adj_matrix = construct_guassian_adj(self.coordinates, self.beamlet_width )
             self.generate_complete_observation_blank()
         else:
             self.data, self.coordinates = obs_data
             self.labels = np.zeros((self.num_beams)) 
-            self.adj_matrix = construct_guassian_adj(self.coordinates, self.telescope_sigma )
+            self.adj_matrix = construct_guassian_adj(self.coordinates, self.beamlet_width )
             self.generate_complete_observation_real()        
 
     def simulate_points(self, num):
@@ -71,7 +73,7 @@ class Observation(object):
             coordinates[i,0] = 2*random()-1
             coordinates[i,1] = 2*random()-1
         return coordinates
-
+    
     def generate_complete_observation_blank(self):
         """
         Generate complete stack of signals
@@ -84,16 +86,38 @@ class Observation(object):
         returns the data but filled with signals this time. 
         """
         SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width, seti_mean= self.SETI
+        
+        SETI_COORDINATE = []
+        for seti_id in SETI_INDEX:
+            SETI_COORDINATE.append(self.coordinates[seti_id,:])
 
-        for i in range(len(SETI_INDEX)):
-            index =  SETI_INDEX[i]
-            start_index =  [seti_start_index[i]]
-            snr =  [seti_snr[i]]
-            drift =  [seti_drift[i]]
-            width =   [seti_width[i]]
-            mean = seti_mean[i]
+        SETI_COORDINATE = np.array(SETI_COORDINATE)
 
-            self.data[index,:,:] = generate_multiple_signal_no_background(start_index, 
+
+        for beam_id in range(self.num_beams):
+            index =  SETI_INDEX
+            start_index =  seti_start_index
+            point = np.array(self.coordinates[beam_id,:])
+            GLOBAL_SCALE = gaussian(distance(point, np.array([0,0])), mu=0, sig=self.telescope_beam_width)
+
+            # we just need to expand this point to match the same dimensions with the other array. 
+
+            distance_seti = np.zeros(len(SETI_COORDINATE))
+
+            for i in range(len(SETI_INDEX)):
+
+                distance_seti[i] = distance(np.array(point), SETI_COORDINATE[i])
+                if SETI_INDEX[i] == beam_id:
+                    print(distance_seti[i])
+
+            BEAM_SCALE =  gaussian(np.array(distance_seti), mu=0, sig=self.beamlet_width)
+
+            snr =  list(np.array(seti_snr)*BEAM_SCALE)
+            drift =  seti_drift
+            width =   seti_width
+            mean = seti_mean[0]
+
+            self.data[beam_id,:,:] = generate_multiple_signal_no_background(start_index, 
                                 snr,
                                 drift,
                                 width,
@@ -103,7 +127,42 @@ class Observation(object):
                                 df = 2.7939677238464355*u.Hz,
                                 dt =  18.253611008*u.s,
                                 fch1 = 6095.214842353016*u.MHz) 
-            self.labels[i] = 1 # update the labels as true here 
+
+            for seti_id in SETI_INDEX:
+                self.labels[seti_id] = 1 # update the labels as true here 
+    # def generate_complete_observation_blank(self):
+    #     """
+    #     Generate complete stack of signals
+        
+    #     Parameters
+    #     ----------
+    #     num : number of beams to simulate (units normalized)            
+    #     Returns
+    #     -------
+    #     returns the data but filled with signals this time. 
+    #     """
+    #     SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width, seti_mean= self.SETI
+        
+        
+    #     for i in range(len(SETI_INDEX)):
+    #         index =  SETI_INDEX[i]
+    #         start_index =  [seti_start_index[i]]
+    #         snr =  [seti_snr[i]]
+    #         drift =  [seti_drift[i]]
+    #         width =   [seti_width[i]]
+    #         mean = seti_mean[i]
+
+    #         self.data[index,:,:] = generate_multiple_signal_no_background(start_index, 
+    #                             snr,
+    #                             drift,
+    #                             width,
+    #                             mean=mean,
+    #                             num_freq_chans = self.fchans,
+    #                             num_time_chans = self.tchans,
+    #                             df = 2.7939677238464355*u.Hz,
+    #                             dt =  18.253611008*u.s,
+    #                             fch1 = 6095.214842353016*u.MHz) 
+    #         self.labels[i] = 1 # update the labels as true here 
           
     
     

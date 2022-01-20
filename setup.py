@@ -3,7 +3,7 @@ import codecs
 import os
 
 
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 DESCRIPTION = 'MeerKAT Radio Telescope simulation data generator'
 LONG_DESCRIPTION = 'MeerKAT Radio Telescope simulation data generator'
 
