@@ -20,8 +20,8 @@ def random_SETI_params(num_signals=None, seed=None):
         seti_start_index.append(random.randint(30,220))
         seti_snr.append(100*random.random()+10)
         sign = (-1)**random.randint(0,1)
-        seti_drift.append(sign*random.random()*10)
-        seti_width.append(30*random.random()+30)
+        seti_drift.append(sign*random.random()*4)
+        seti_width.append(30*random.random()+50)
         seti_mean.append(30*random.random()+10)
 
     return [SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width, seti_mean]
