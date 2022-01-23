@@ -12,7 +12,7 @@ from numba import jit
 from copy import deepcopy
 from astropy import units as u
 import setigen as stg
-
+import math
 
 class Observation(object):
     '''
@@ -25,12 +25,12 @@ class Observation(object):
                  tchans=None,
                  df=2.7939677238464355*u.Hz,
                  dt=18.253611008*u.s,
-                 fch1=6*u.GHz,
+                 fch1=900,
                  ascending=False,
                  SETI = None,
                  obs_data=None,
-                 telescope_beam_width = 0.6,
-                 beamlet_width = 0.1,
+                 telescope_beam_width = None,
+                 beamlet_width =None,
                  **kwargs):
         
         self.num_beams = num_beams # number of beams 
@@ -38,16 +38,24 @@ class Observation(object):
         self.tchans = tchans  # number of time bins
         self.df = df # resolution in freq 
         self.dt = dt # resolution in time 
-        self.fch1 = fch1 # start frequency 
-        self.telescope_beam_width =telescope_beam_width #global beam width
-        self.beamlet_width = beamlet_width  # individual beam width 
+        self.fch1 = fch1 # start frequency in MHz
+        
         self.SETI = SETI 
         
+        if telescope_beam_width and beamlet_width:
+            self.telescope_beam_width =telescope_beam_width #global beam width
+            self.beamlet_width = beamlet_width  # individual beam width 
+        else:
+            FWHM_TO_SIGMA = 2*math.sqrt(2*math.log(2))
+            self.telescope_beam_width = (0.5 * ((2.998e8 / float(fch1)) / 13.5))/FWHM_TO_SIGMA
+            self.beamlet_width = (0.5 * ((2.998e8 / float(fch1)) / 1000))/FWHM_TO_SIGMA
 
+        print("Beam Width: ",self.beamlet_width, " sigma ---- Field of View width: ", self.telescope_beam_width , ' sigma ' )
         if obs_data== None:
             self.data = np.zeros((self.num_beams, self.tchans, self.fchans))
             self.labels = np.zeros((self.num_beams))
             self.coordinates = self.simulate_points(self.num_beams)
+            
             self.adj_matrix = construct_guassian_adj(self.coordinates, self.beamlet_width )
             self.generate_complete_observation_blank()
         else:
@@ -70,8 +78,11 @@ class Observation(object):
         """
         coordinates  = np.zeros((num, 2))
         for i in range(num):
-            coordinates[i,0] = 2*random()-1
-            coordinates[i,1] = 2*random()-1
+            r = 2*self.telescope_beam_width*random()
+            theta = 2*math.pi*random()
+            coordinates[i,0] = r*math.cos(theta)
+            coordinates[i,1] = r*math.sin(theta)
+
         return coordinates
     
     def generate_complete_observation_blank(self):
@@ -85,7 +96,14 @@ class Observation(object):
         -------
         returns the data but filled with signals this time. 
         """
-        SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width, seti_mean= self.SETI
+        SETI_INDEX = self.SETI['SETI_INDEX'] 
+        seti_start_index = self.SETI['seti_start_index'] 
+        seti_snr = self.SETI['seti_snr'] 
+        seti_drift = self.SETI['seti_drift'] 
+        seti_width = self.SETI['seti_width'] 
+        seti_mean = self.SETI['seti_mean'] 
+
+        # SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width, seti_mean= self.SETI
         # we loop through each seti index and we find their coordinates 
         SETI_COORDINATE = []
         for seti_id in SETI_INDEX:
@@ -116,52 +134,20 @@ class Observation(object):
             mean = seti_mean[0]
 
             self.data[beam_id,:,:] = generate_multiple_signal_no_background(start_index, 
-                                snr,
-                                drift,
-                                width,
-                                mean=mean,
-                                num_freq_chans = self.fchans,
-                                num_time_chans = self.tchans,
-                                df = 2.7939677238464355*u.Hz,
-                                dt =  18.253611008*u.s,
-                                fch1 = 6095.214842353016*u.MHz) 
+                                                                            snr,
+                                                                            drift,
+                                                                            width,
+                                                                            mean=mean,
+                                                                            num_freq_chans = self.fchans,
+                                                                            num_time_chans = self.tchans,
+                                                                            df = 2.7939677238464355*u.Hz,
+                                                                            dt =  18.253611008*u.s,
+                                                                            fch1 = 6095.214842353016*u.MHz) 
 
             for seti_id in SETI_INDEX:
                 self.labels[seti_id] = 1 # update the labels as true here 
-    # def generate_complete_observation_blank(self):
-    #     """
-    #     Generate complete stack of signals
-        
-    #     Parameters
-    #     ----------
-    #     num : number of beams to simulate (units normalized)            
-    #     Returns
-    #     -------
-    #     returns the data but filled with signals this time. 
-    #     """
-    #     SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width, seti_mean= self.SETI
-        
-        
-    #     for i in range(len(SETI_INDEX)):
-    #         index =  SETI_INDEX[i]
-    #         start_index =  [seti_start_index[i]]
-    #         snr =  [seti_snr[i]]
-    #         drift =  [seti_drift[i]]
-    #         width =   [seti_width[i]]
-    #         mean = seti_mean[i]
 
-    #         self.data[index,:,:] = generate_multiple_signal_no_background(start_index, 
-    #                             snr,
-    #                             drift,
-    #                             width,
-    #                             mean=mean,
-    #                             num_freq_chans = self.fchans,
-    #                             num_time_chans = self.tchans,
-    #                             df = 2.7939677238464355*u.Hz,
-    #                             dt =  18.253611008*u.s,
-    #                             fch1 = 6095.214842353016*u.MHz) 
-    #         self.labels[i] = 1 # update the labels as true here 
-          
+     
     def generate_complete_observation_real(self):
         """
         Generate complete stack of signals
@@ -173,7 +159,12 @@ class Observation(object):
         -------
         returns the data but filled with signals this time. 
         """
-        SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width, seti_mean= self.SETI
+        SETI_INDEX = self.SETI['SETI_INDEX'] 
+        seti_start_index = self.SETI['seti_start_index'] 
+        seti_snr = self.SETI['seti_snr'] 
+        seti_drift = self.SETI['seti_drift'] 
+        seti_width = self.SETI['seti_width'] 
+        seti_mean = self.SETI['seti_mean'] 
         # we loop through each seti index and we find their coordinates 
         SETI_COORDINATE = []
         for seti_id in SETI_INDEX:
@@ -219,41 +210,8 @@ class Observation(object):
 
             for seti_id in SETI_INDEX:
                 self.labels[seti_id] = 1
-    
-    # def generate_complete_observation_real(self):
-    #     """
-    #     Generate complete stack of signals
-        
-    #     Parameters
-    #     ----------
-    #     num : number of beams to simulate (units normalized)            
-    #     Returns
-    #     -------
-    #     returns the data but filled with signals this time. 
-    #     """
-    #     SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width = self.SETI
 
-    #     for i in range(self.num_beams):
-     
-    #         if i in SETI_INDEX:
-    #             start_index = seti_start_index
-    #             snr =  seti_snr
-    #             drift = seti_drift
-    #             width = seti_width
 
-    #             self.data[i,:,:] = generate_multiple_signal_real_background(start_index, 
-    #                                 snr,
-    #                                 drift,
-    #                                 width,
-    #                                 background = self.data[i,:,:],
-    #                                 num_freq_chans = self.fchans,
-    #                                 num_time_chans = self.tchans,
-    #                                 df = 2.7939677238464355*u.Hz,
-    #                                 dt =  18.253611008*u.s,
-    #                                 fch1 = 6095.214842353016*u.MHz) 
-    #             self.labels[i] = 1 # update the labels as true here 
-           
-    
     def extract_all(self):
         """
         Extracts all the useful data

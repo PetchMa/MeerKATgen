@@ -1,0 +1,672 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MeerKATgen package &#8212; MeerKATgen Docs</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" type="text/css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="conf module" href="conf.html" />
+    <link rel="prev" title="MeerKATgen" href="modules.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">MeerKATgen Docs</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="modules.html">
+   MeerKATgen
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     MeerKATgen package
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="conf.html">
+     conf module
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="execute_test.html">
+     execute_test module
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="setup.html">
+     setup module
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/MeerKATgen.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen.create_dataset">
+   MeerKATgen.create_dataset module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen.observation">
+   MeerKATgen.observation module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen.sim_params">
+   MeerKATgen.sim_params module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen.utils">
+   MeerKATgen.utils module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen.visualizations">
+   MeerKATgen.visualizations module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>MeerKATgen package</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen.create_dataset">
+   MeerKATgen.create_dataset module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen.observation">
+   MeerKATgen.observation module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen.sim_params">
+   MeerKATgen.sim_params module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen.utils">
+   MeerKATgen.utils module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen.visualizations">
+   MeerKATgen.visualizations module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-MeerKATgen">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="meerkatgen-package">
+<h1>MeerKATgen package<a class="headerlink" href="#meerkatgen-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-MeerKATgen.create_dataset">
+<span id="meerkatgen-create-dataset-module"></span><h2>MeerKATgen.create_dataset module<a class="headerlink" href="#module-MeerKATgen.create_dataset" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="MeerKATgen.create_dataset.create_simulated_obs">
+<code class="sig-prename descclassname">MeerKATgen.create_dataset.</code><code class="sig-name descname">create_simulated_obs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_beams</span></em>, <em class="sig-param"><span class="n">fchans</span></em>, <em class="sig-param"><span class="n">tchans</span></em>, <em class="sig-param"><span class="n">telescope_sigma</span></em>, <em class="sig-param"><span class="n">SETI</span></em>, <em class="sig-param"><span class="n">obs_data</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.create_dataset.create_simulated_obs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.create_dataset.create_simulated_obs_false">
+<code class="sig-prename descclassname">MeerKATgen.create_dataset.</code><code class="sig-name descname">create_simulated_obs_false</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_beams</span></em>, <em class="sig-param"><span class="n">fchans</span></em>, <em class="sig-param"><span class="n">tchans</span></em>, <em class="sig-param"><span class="n">telescope_sigma</span></em>, <em class="sig-param"><span class="n">obs_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">index</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.create_dataset.create_simulated_obs_false" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.create_dataset.create_simulated_obs_false_empty">
+<code class="sig-prename descclassname">MeerKATgen.create_dataset.</code><code class="sig-name descname">create_simulated_obs_false_empty</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_beams</span></em>, <em class="sig-param"><span class="n">fchans</span></em>, <em class="sig-param"><span class="n">tchans</span></em>, <em class="sig-param"><span class="n">telescope_sigma</span></em>, <em class="sig-param"><span class="n">obs_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">index</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.create_dataset.create_simulated_obs_false_empty" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.create_dataset.create_simulated_obs_false_simulated">
+<code class="sig-prename descclassname">MeerKATgen.create_dataset.</code><code class="sig-name descname">create_simulated_obs_false_simulated</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_beams</span><span class="o">=</span><span class="default_value">64</span></em>, <em class="sig-param"><span class="n">fchans</span><span class="o">=</span><span class="default_value">256</span></em>, <em class="sig-param"><span class="n">tchans</span><span class="o">=</span><span class="default_value">16</span></em>, <em class="sig-param"><span class="n">obs_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">telescope_sigma</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">index</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.create_dataset.create_simulated_obs_false_simulated" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.create_dataset.create_simulated_obs_single_true">
+<code class="sig-prename descclassname">MeerKATgen.create_dataset.</code><code class="sig-name descname">create_simulated_obs_single_true</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_beams</span></em>, <em class="sig-param"><span class="n">fchans</span></em>, <em class="sig-param"><span class="n">tchans</span></em>, <em class="sig-param"><span class="n">telescope_sigma</span></em>, <em class="sig-param"><span class="n">SETI</span></em>, <em class="sig-param"><span class="n">obs_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">index</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.create_dataset.create_simulated_obs_single_true" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.create_dataset.create_simulated_obs_single_true_simulated">
+<code class="sig-prename descclassname">MeerKATgen.create_dataset.</code><code class="sig-name descname">create_simulated_obs_single_true_simulated</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_beams</span><span class="o">=</span><span class="default_value">64</span></em>, <em class="sig-param"><span class="n">fchans</span><span class="o">=</span><span class="default_value">256</span></em>, <em class="sig-param"><span class="n">tchans</span><span class="o">=</span><span class="default_value">16</span></em>, <em class="sig-param"><span class="n">obs_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">telescope_sigma</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">index</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.create_dataset.create_simulated_obs_single_true_simulated" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.create_dataset.create_simulated_obs_true_simulated">
+<code class="sig-prename descclassname">MeerKATgen.create_dataset.</code><code class="sig-name descname">create_simulated_obs_true_simulated</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_beams</span><span class="o">=</span><span class="default_value">64</span></em>, <em class="sig-param"><span class="n">fchans</span><span class="o">=</span><span class="default_value">256</span></em>, <em class="sig-param"><span class="n">tchans</span><span class="o">=</span><span class="default_value">16</span></em>, <em class="sig-param"><span class="n">obs_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">telescope_sigma</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">index</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.create_dataset.create_simulated_obs_true_simulated" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.create_dataset.parallel">
+<code class="sig-prename descclassname">MeerKATgen.create_dataset.</code><code class="sig-name descname">parallel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num</span></em>, <em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">cores</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.create_dataset.parallel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-MeerKATgen.observation">
+<span id="meerkatgen-observation-module"></span><h2>MeerKATgen.observation module<a class="headerlink" href="#module-MeerKATgen.observation" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="MeerKATgen.observation.Observation">
+<em class="property">class </em><code class="sig-prename descclassname">MeerKATgen.observation.</code><code class="sig-name descname">Observation</code><span class="sig-paren">(</span><em class="sig-param">num_beams=None</em>, <em class="sig-param">fchans=None</em>, <em class="sig-param">tchans=None</em>, <em class="sig-param">df=&lt;Quantity 2.79396772 Hz&gt;</em>, <em class="sig-param">dt=&lt;Quantity 18.25361101 s&gt;</em>, <em class="sig-param">fch1=900</em>, <em class="sig-param">ascending=False</em>, <em class="sig-param">SETI=None</em>, <em class="sig-param">obs_data=None</em>, <em class="sig-param">telescope_beam_width=None</em>, <em class="sig-param">beamlet_width=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.observation.Observation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Facilitate the creation of entirely synthetic radio data 
+of 64 anntena beams</p>
+<dl class="py method">
+<dt id="MeerKATgen.observation.Observation.extract_all">
+<code class="sig-name descname">extract_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.observation.Observation.extract_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts all the useful data</p>
+<p>Returns</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="MeerKATgen.observation.Observation.generate_complete_observation_blank">
+<code class="sig-name descname">generate_complete_observation_blank</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.observation.Observation.generate_complete_observation_blank" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate complete stack of signals</p>
+<p>num : number of beams to simulate (units normalized)            
+Returns
+——-
+returns the data but filled with signals this time.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="MeerKATgen.observation.Observation.generate_complete_observation_real">
+<code class="sig-name descname">generate_complete_observation_real</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.observation.Observation.generate_complete_observation_real" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate complete stack of signals</p>
+<p>num : number of beams to simulate (units normalized)            
+Returns
+——-
+returns the data but filled with signals this time.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="MeerKATgen.observation.Observation.simulate_points">
+<code class="sig-name descname">simulate_points</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.observation.Observation.simulate_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate random points</p>
+<p>num : number of beams to simulate (units normalized)            
+Returns
+——-
+coordinates : numpy array [num, 2]
+coordinates of where the beams will be in the sky</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.observation.random">
+<code class="sig-prename descclassname">MeerKATgen.observation.</code><code class="sig-name descname">random</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; x in the interval [0, 1).<a class="headerlink" href="#MeerKATgen.observation.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-MeerKATgen.sim_params">
+<span id="meerkatgen-sim-params-module"></span><h2>MeerKATgen.sim_params module<a class="headerlink" href="#module-MeerKATgen.sim_params" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="MeerKATgen.sim_params.blank_SETI_params">
+<code class="sig-prename descclassname">MeerKATgen.sim_params.</code><code class="sig-name descname">blank_SETI_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_signals</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seed</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.sim_params.blank_SETI_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.sim_params.random_SETI_params">
+<code class="sig-prename descclassname">MeerKATgen.sim_params.</code><code class="sig-name descname">random_SETI_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_signals</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seed</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.sim_params.random_SETI_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-MeerKATgen.utils">
+<span id="meerkatgen-utils-module"></span><h2>MeerKATgen.utils module<a class="headerlink" href="#module-MeerKATgen.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="MeerKATgen.utils.calc_rfi_snr">
+<code class="sig-prename descclassname">MeerKATgen.utils.</code><code class="sig-name descname">calc_rfi_snr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">RFI_POINT</span></em>, <em class="sig-param"><span class="n">deviation</span></em>, <em class="sig-param"><span class="n">coordinates</span></em>, <em class="sig-param"><span class="n">snr_base</span><span class="o">=</span><span class="default_value">30</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.utils.calc_rfi_snr" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate all SNR of RFI signal</p>
+<p>RFI_POINT : single R^2 vector for where the signal originate from 
+deviation : signal decay as standard deviation
+coordinates : coordinates of beams 
+snr_base : the base SNR of the RFI signal
+Returns
+——-
+Distance :</p>
+<blockquote>
+<div><p>list of RFI signals as a function of Guassian and distance to the point</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.utils.construct_distance_adj">
+<code class="sig-prename descclassname">MeerKATgen.utils.</code><code class="sig-name descname">construct_distance_adj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span></em>, <em class="sig-param"><span class="n">sigma_beam</span></em>, <em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.utils.construct_distance_adj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct arbitrary Adjacency Matrix</p>
+<p>coordinates : n-beams of R^2 vectors 
+sigma_beam : spread function of beam 
+func : python function two vectors and gives 1 scalar 
+Returns
+——-
+Distance :</p>
+<blockquote>
+<div><p>Adjacency matrix weighted by arbitrary function</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.utils.construct_guassian_adj">
+<code class="sig-prename descclassname">MeerKATgen.utils.</code><code class="sig-name descname">construct_guassian_adj</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span></em>, <em class="sig-param"><span class="n">sigma_beam</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.utils.construct_guassian_adj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct Guassian Adjacency Matrix</p>
+<p>coordinates : n-beams of R^2 vectors 
+sigma_beam : spread function of beam 
+Returns
+——-
+Distance :</p>
+<blockquote>
+<div><p>Adjacency matrix weighted by guassian function</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.utils.distance">
+<code class="sig-prename descclassname">MeerKATgen.utils.</code><code class="sig-name descname">distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x1</span></em>, <em class="sig-param"><span class="n">x2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.utils.distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute Euclidean distance</p>
+<p>x1 : Sky point for obj 1 : [ra, dec] R^2 vector 
+x2 : Sky point for obj 2 : [ra, dec] R^2 vector      
+Returns
+——-
+Distance :</p>
+<blockquote>
+<div><p>Distance</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.utils.gaussian">
+<code class="sig-prename descclassname">MeerKATgen.utils.</code><code class="sig-name descname">gaussian</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">sig</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.utils.gaussian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute 1-D Guassian</p>
+<p>x : point value [1d]
+mu : mean value 
+sig : deviation  
+Returns
+——-
+Distance : 
+guassian evaluated at x</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.utils.generate_multiple_signal_no_background">
+<code class="sig-prename descclassname">MeerKATgen.utils.</code><code class="sig-name descname">generate_multiple_signal_no_background</code><span class="sig-paren">(</span><em class="sig-param">start_index</em>, <em class="sig-param">snr</em>, <em class="sig-param">drift</em>, <em class="sig-param">width</em>, <em class="sig-param">mean</em>, <em class="sig-param">num_freq_chans=256</em>, <em class="sig-param">num_time_chans=16</em>, <em class="sig-param">df=&lt;Quantity 2.79396772 Hz&gt;</em>, <em class="sig-param">dt=&lt;Quantity 18.25361101 s&gt;</em>, <em class="sig-param">fch1=&lt;Quantity 6095.21484235 MHz&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.utils.generate_multiple_signal_no_background" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate MULTIPLE signal</p>
+<p>start_index, 
+snr: SNR of injected signal
+drift : drift rate of signal
+width :width of the signal in  [Hz]
+mean : average background noise
+num_freq_chans : number of freq channels in index
+num_time_chans : number of time channels in index
+df : freq resolution in the data
+dt : time resolution in data
+fch1 : start of frequency channel 
+Returns
+——-
+Distance :</p>
+<blockquote>
+<div><p>spectrogram of fake inject data</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.utils.generate_multiple_signal_real_background">
+<code class="sig-prename descclassname">MeerKATgen.utils.</code><code class="sig-name descname">generate_multiple_signal_real_background</code><span class="sig-paren">(</span><em class="sig-param">start_index</em>, <em class="sig-param">snr</em>, <em class="sig-param">drift</em>, <em class="sig-param">width</em>, <em class="sig-param">background</em>, <em class="sig-param">num_freq_chans=256</em>, <em class="sig-param">num_time_chans=16</em>, <em class="sig-param">df=&lt;Quantity 2.79396772 Hz&gt;</em>, <em class="sig-param">dt=&lt;Quantity 18.25361101 s&gt;</em>, <em class="sig-param">fch1=&lt;Quantity 6095.21484235 MHz&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.utils.generate_multiple_signal_real_background" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate MULTIPLE signal</p>
+<p>start_index, 
+snr: SNR of injected signal
+drift : drift rate of signal
+width :width of the signal in  [Hz]
+mean : average background noise
+num_freq_chans : number of freq channels in index
+num_time_chans : number of time channels in index
+df : freq resolution in the data
+dt : time resolution in data
+fch1 : start of frequency channel 
+Returns
+——-
+Distance :</p>
+<blockquote>
+<div><p>spectrogram of fake inject data</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.utils.generate_single_signal_no_background">
+<code class="sig-prename descclassname">MeerKATgen.utils.</code><code class="sig-name descname">generate_single_signal_no_background</code><span class="sig-paren">(</span><em class="sig-param">start_index</em>, <em class="sig-param">snr</em>, <em class="sig-param">drift</em>, <em class="sig-param">width</em>, <em class="sig-param">mean</em>, <em class="sig-param">num_freq_chans=256</em>, <em class="sig-param">num_time_chans=16</em>, <em class="sig-param">df=&lt;Quantity 2.79396772 Hz&gt;</em>, <em class="sig-param">dt=&lt;Quantity 18.25361101 s&gt;</em>, <em class="sig-param">fch1=&lt;Quantity 6095.21484235 MHz&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.utils.generate_single_signal_no_background" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate SINGLE signal</p>
+<p>start_index, 
+snr: SNR of injected signal
+drift : drift rate of signal
+width :width of the signal in  [Hz]
+mean : average background noise
+num_freq_chans : number of freq channels in index
+num_time_chans : number of time channels in index
+df : freq resolution in the data
+dt : time resolution in data
+fch1 : start of frequency channel 
+Returns
+——-
+Distance :</p>
+<blockquote>
+<div><p>spectrogram of fake inject data</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.utils.generate_single_signal_real_background">
+<code class="sig-prename descclassname">MeerKATgen.utils.</code><code class="sig-name descname">generate_single_signal_real_background</code><span class="sig-paren">(</span><em class="sig-param">start_index</em>, <em class="sig-param">snr</em>, <em class="sig-param">drift</em>, <em class="sig-param">width</em>, <em class="sig-param">background</em>, <em class="sig-param">num_freq_chans=256</em>, <em class="sig-param">num_time_chans=16</em>, <em class="sig-param">df=&lt;Quantity 2.79396772 Hz&gt;</em>, <em class="sig-param">dt=&lt;Quantity 18.25361101 s&gt;</em>, <em class="sig-param">fch1=&lt;Quantity 6095.21484235 MHz&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.utils.generate_single_signal_real_background" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate SINGLE signal</p>
+<p>start_index, 
+snr: SNR of injected signal
+drift : drift rate of signal
+width :width of the signal in  [Hz]
+mean : average background noise
+background : background to use
+num_freq_chans : number of freq channels in index
+num_time_chans : number of time channels in index
+df : freq resolution in the data
+dt : time resolution in data
+fch1 : start of frequency channel 
+Returns
+——-
+Distance :</p>
+<blockquote>
+<div><p>spectrogram of fake inject data</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.utils.move_point_guassian">
+<code class="sig-prename descclassname">MeerKATgen.utils.</code><code class="sig-name descname">move_point_guassian</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span></em>, <em class="sig-param"><span class="n">adj_matrix</span></em>, <em class="sig-param"><span class="n">point</span></em>, <em class="sig-param"><span class="n">new_location</span></em>, <em class="sig-param"><span class="n">sigma_beam</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.utils.move_point_guassian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move point and recalculate Adjacency Matrix</p>
+<p>coordinates : n-beams of R^2 vectors so its [N,2] shape
+adj_matrix: adjacency matrix
+point: index of point selected
+new_location: position in normalized sky coordinates where to place point
+sigma_beam : spread function of beam 
+Returns
+——-
+Distance :</p>
+<blockquote>
+<div><p>new set of coordinates and the new adj matrix</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.utils.random">
+<code class="sig-prename descclassname">MeerKATgen.utils.</code><code class="sig-name descname">random</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; x in the interval [0, 1).<a class="headerlink" href="#MeerKATgen.utils.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-MeerKATgen.visualizations">
+<span id="meerkatgen-visualizations-module"></span><h2>MeerKATgen.visualizations module<a class="headerlink" href="#module-MeerKATgen.visualizations" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="MeerKATgen.visualizations.random">
+<code class="sig-prename descclassname">MeerKATgen.visualizations.</code><code class="sig-name descname">random</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; x in the interval [0, 1).<a class="headerlink" href="#MeerKATgen.visualizations.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.visualizations.visualize_connection">
+<code class="sig-prename descclassname">MeerKATgen.visualizations.</code><code class="sig-name descname">visualize_connection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span></em>, <em class="sig-param"><span class="n">adj_matrix</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.visualizations.visualize_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize Connections</p>
+<p>coordinates : Sky point for objs : [ ra, dec] R^2 vector 
+adj_matrix : connections for graph</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.visualizations.visualize_connection_SETI">
+<code class="sig-prename descclassname">MeerKATgen.visualizations.</code><code class="sig-name descname">visualize_connection_SETI</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span></em>, <em class="sig-param"><span class="n">adj_matrix</span></em>, <em class="sig-param"><span class="n">SETI_INDEX</span></em>, <em class="sig-param"><span class="n">line_true</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.visualizations.visualize_connection_SETI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize Connections 
+Parameters
+———-
+coordinates : Sky point for objs : [ ra, dec] R^2 vector 
+adj_matrix : connections for graph</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.visualizations.visualize_fullset_squares">
+<code class="sig-prename descclassname">MeerKATgen.visualizations.</code><code class="sig-name descname">visualize_fullset_squares</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.visualizations.visualize_fullset_squares" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize Connections</p>
+<p>coordinates : Sky point for objs : [ ra, dec] R^2 vector 
+adj_matrix : connections for graph</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="MeerKATgen.visualizations.visualize_polar_SETI">
+<code class="sig-prename descclassname">MeerKATgen.visualizations.</code><code class="sig-name descname">visualize_polar_SETI</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span></em>, <em class="sig-param"><span class="n">adj_matrix</span></em>, <em class="sig-param"><span class="n">SETI_INDEX</span></em>, <em class="sig-param"><span class="n">line_true</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#MeerKATgen.visualizations.visualize_polar_SETI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize polarcoordinates</p>
+<p>coordinates : Sky point for objs : [ ra, dec] R^2 vector 
+adj_matrix : connections for graph</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-MeerKATgen">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-MeerKATgen" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="modules.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">MeerKATgen</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="conf.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">conf module</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Peter Ma<br/>
+    
+        &copy; Copyright 2022, Peter Ma.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

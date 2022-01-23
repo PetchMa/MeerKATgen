@@ -24,7 +24,14 @@ def random_SETI_params(num_signals=None, seed=None):
         seti_width.append(30*random.random()+50)
         seti_mean.append(30*random.random()+10)
 
-    return [SETI_INDEX, seti_start_index, seti_snr, seti_drift,  seti_width, seti_mean]
+    SETI = {}
+    SETI['SETI_INDEX'] = SETI_INDEX
+    SETI['seti_start_index'] = seti_start_index
+    SETI['seti_snr'] = seti_snr
+    SETI['seti_drift'] = seti_drift
+    SETI['seti_width'] = seti_width
+    SETI['seti_mean'] = seti_mean
+    return SETI
 
 
 def blank_SETI_params(num_signals=None, seed=None):
