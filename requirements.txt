@@ -9,3 +9,5 @@ blimpy
 setigen
 astropy
 numba
+sphinx-book-theme
+sphinx
