@@ -10,10 +10,10 @@ def visualize_connection(coordinates, adj_matrix):
 
     Parameters
     ----------
-    coordinates : Sky point for objs : [ ra, dec] R^2 vector 
-    adj_matrix : connections for graph     
-    
-    
+    coordinates : array
+        Sky point for objs : [ ra, dec] R^2 vector 
+    adj_matrix : array
+        connections for graph     
     """
     plt.figure(figsize=(8,8))
     for i in range(adj_matrix.shape[0]):
@@ -32,8 +32,10 @@ def visualize_connection_SETI(coordinates, adj_matrix, SETI_INDEX, line_true = F
     Visualize Connections 
     Parameters
     ----------
-    coordinates : Sky point for objs : [ ra, dec] R^2 vector 
-    adj_matrix : connections for graph     
+    coordinates : array 
+        Sky point for objs : [ ra, dec] R^2 vector 
+    adj_matrix : array
+        connections for graph     
     
     """
     plt.figure(figsize=(8,8))
@@ -64,8 +66,10 @@ def visualize_polar_SETI(coordinates, adj_matrix, SETI_INDEX, line_true = False)
 
     Parameters
     ----------
-    coordinates : Sky point for objs : [ ra, dec] R^2 vector 
-    adj_matrix : connections for graph     
+    coordinates : array
+        Sky point for objs : [ ra, dec] R^2 vector 
+    adj_matrix : array
+        connections for graph     
     
     
     """
@@ -98,8 +102,10 @@ def visualize_fullset_squares(data):
 
     Parameters
     ----------
-    coordinates : Sky point for objs : [ ra, dec] R^2 vector 
-    adj_matrix : connections for graph     
+    coordinates : array
+        Sky point for objs : [ ra, dec] R^2 vector 
+    adj_matrix : array
+        connections for graph     
     """
     fig, ax = plt.subplots(nrows=8, ncols=8, figsize=(15,15))
     count= 0 

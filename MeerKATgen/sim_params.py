@@ -4,6 +4,21 @@ import jax
 from numba import jit
 
 def random_SETI_params(num_signals=None, seed=None):
+    """
+    Generate SETI parameters at random 
+
+    Parameters
+    ----------
+    num_signals : int
+        number of signals to inject
+    seed : float
+        make the random deterministic
+    
+    Returns
+    -------
+    SETI : dict
+        Dictionary containing all the data for parameters
+    """
     if num_signals == None:
         num_signals = random.randint(1,5)  
     num_signal = num_signals 
@@ -35,6 +50,21 @@ def random_SETI_params(num_signals=None, seed=None):
 
 
 def blank_SETI_params(num_signals=None, seed=None):
+    """
+    Generate NO SETI parameters 
+
+    Parameters
+    ----------
+    num_signals : int
+        number of signals to inject
+    seed : float
+        make the random deterministic
+    
+    Returns
+    -------
+    SETI : dict
+        Dictionary containing all the data for parameters [this effectively does nothing at the moment]
+    """
     if num_signals == None:
         num_signals = 1
     num_signal = num_signals 

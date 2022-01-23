@@ -15,10 +15,59 @@ import setigen as stg
 import math
 
 class Observation(object):
-    '''
-    Facilitate the creation of entirely synthetic radio data 
-    of 64 anntena beams 
-    '''
+    """
+    Core Object that 
+    facilitate the creation of entirely synthetic radio data of 64 anntena beams
+
+    ...
+
+    Attributes
+    ----------
+    num_beams : int
+        Number of beams 
+    fchans : int
+        Number of frequency bins
+    tchans : int
+        Number of time bins
+    df : float
+        Resolution in freq in [Hz]
+    dt : float
+        Resolution in time in [seconds]
+    fch1 : float
+        start frequency in [MHz]
+    telescope_beam_width : float
+        The entire FOV full width half maximum in units of distance [sigma]
+    beamlet_width : float
+        the individual telescope full width half maximum in units of distance [sigma] 
+    data : numpy array
+        Contains the data of observations [number of beams , time , frequency]
+    adj_matrix: numpy array
+        Contains the adjacency matrix describes the graph of the setup. [number of beams, number of beams]
+    coordinates : numpy array
+        Contains the coordinates in X-Y plane [number of beams, 2]
+    labels : array numpy
+        Contains the labels of 1 or 0 for SETI or No SETI
+    SETI : dict
+        Contains dictionary for all the physical parameters to be injected. Key elements of dictionary: 
+        SETI['SETI_INDEX'] 
+        SETI['seti_start_index'] 
+        SETI['seti_snr'] 
+        SETI['seti_drift'] 
+        SETI['seti_width'] 
+        SETI['seti_mean'] 
+    
+    
+    Methods
+    -------
+    simulate_points(num=64)
+        Simulate 64 points in the sky given the initialized FWHM values
+    generate_complete_observation_blank()
+        Take the initialized values and create blank observations from it with INJECTED SETI signals
+    generate_complete_observation_real()
+        Take the initialized values and create  observations from REAL DATA and INJECT SETI signals
+    extract_all()
+        Extract all the important peices of data
+    """
     def __init__(self,
                  num_beams=None,
                  fchans=None,
@@ -43,7 +92,7 @@ class Observation(object):
         self.SETI = SETI 
         
         if telescope_beam_width and beamlet_width:
-            self.telescope_beam_width =telescope_beam_width #global beam width
+            self.telescope_beam_width = telescope_beam_width #global beam width
             self.beamlet_width = beamlet_width  # individual beam width 
         else:
             FWHM_TO_SIGMA = 2*math.sqrt(2*math.log(2))
@@ -66,15 +115,17 @@ class Observation(object):
 
     def simulate_points(self, num):
         """
-        Generate random points
+        Generate random points given number of beams
 
         Parameters
         ----------
-        num : number of beams to simulate (units normalized)            
+        num : int
+            Number of beams
+      
         Returns
         -------
-        coordinates : numpy array [num, 2]
-        coordinates of where the beams will be in the sky
+        coordinates : numpy Array
+            Returns the sky coordinates it simulated numpy array [num, 2]
         """
         coordinates  = np.zeros((num, 2))
         for i in range(num):
@@ -87,14 +138,24 @@ class Observation(object):
     
     def generate_complete_observation_blank(self):
         """
-        Generate complete stack of signals
-        
+        Generate complete stack of signals. This simulates the observation 
+        including with SYNTHETIC background given the coordinates and inital values.
+
         Parameters
         ----------
-        num : number of beams to simulate (units normalized)            
+        None
+      
         Returns
         -------
-        returns the data but filled with signals this time. 
+        None
+
+        Manipulations
+        -------------
+        data : Array
+            Adds the simulated signal into the array
+        labels : array
+            Records the labels with the injected signals
+        
         """
         SETI_INDEX = self.SETI['SETI_INDEX'] 
         seti_start_index = self.SETI['seti_start_index'] 
@@ -150,14 +211,24 @@ class Observation(object):
      
     def generate_complete_observation_real(self):
         """
-        Generate complete stack of signals
-        
+        Generate complete stack of signals. This simulates the observation 
+        using REAL background given the coordinates and inital values.
+
         Parameters
         ----------
-        num : number of beams to simulate (units normalized)            
+        None
+      
         Returns
         -------
-        returns the data but filled with signals this time. 
+        None
+
+        Manipulations
+        -------------
+        data : Array
+            Adds the simulated signal into the array
+        labels : array
+            Records the labels with the injected signals
+        
         """
         SETI_INDEX = self.SETI['SETI_INDEX'] 
         seti_start_index = self.SETI['seti_start_index'] 
@@ -214,13 +285,22 @@ class Observation(object):
 
     def extract_all(self):
         """
-        Extracts all the useful data
+        Extracts the data, coordinates, adjacency matrix and the labels.
 
         Parameters
         ----------
-        Returns all the data
+        None
+      
+        Returns
         -------
-        Returns 
+        data : array
+            the observations
+        coordinates : array
+            the coordinates in the sky for these beams
+        adj_matrix : array
+            adjacency matrix for the graph
+        labels : array
+            labels for where the SETI signal is or isn't.
         """
         return self.data, self.coordinates, self.adj_matrix, self.labels 
 
