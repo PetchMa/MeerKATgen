@@ -31,7 +31,7 @@ def random_SETI_params(num_signals=None, seed=None):
     seti_width = []
     seti_mean = []
     for i in range(num_signals):
-        SETI_INDEX.append(random.randint(0,64))
+        SETI_INDEX.append(random.randint(0,63))
         seti_start_index.append(random.randint(30,220))
         seti_snr.append(100*random.random()+10)
         sign = (-1)**random.randint(0,1)

@@ -56,7 +56,6 @@ class Observation(object):
         SETI['seti_width'] 
         SETI['seti_mean'] 
     
-    
     Methods
     -------
     simulate_points(num=64)
@@ -77,6 +76,7 @@ class Observation(object):
                  fch1=900,
                  ascending=False,
                  SETI = None,
+                 coordinates = None,
                  obs_data=None,
                  telescope_beam_width = None,
                  beamlet_width =None,
@@ -87,29 +87,58 @@ class Observation(object):
         self.tchans = tchans  # number of time bins
         self.df = df # resolution in freq 
         self.dt = dt # resolution in time 
-        self.fch1 = fch1 # start frequency in MHz
-        
+        self.fch1 = fch1*1e6 # start frequency in hz
+        self.coordinates = coordinates
         self.SETI = SETI 
         
         if telescope_beam_width and beamlet_width:
             self.telescope_beam_width = telescope_beam_width #global beam width
             self.beamlet_width = beamlet_width  # individual beam width 
         else:
-            FWHM_TO_SIGMA = 2*math.sqrt(2*math.log(2))
-            self.telescope_beam_width = (0.5 * ((2.998e8 / float(fch1)) / 13.5))/FWHM_TO_SIGMA
-            self.beamlet_width = (0.5 * ((2.998e8 / float(fch1)) / 1000))/FWHM_TO_SIGMA
+            # FWHM_TO_SIGMA = 2*math.sqrt(2*math.log(2))
+            FWHM_TO_SIGMA = 1
+            self.telescope_beam_width =(0.5 * ((2.998e8 / float(self.fch1)) / 13.5)*57.2958)/FWHM_TO_SIGMA
+            # convert to radians
+            self.beamlet_width =  (0.5 * ((2.998e8 / float(self.fch1)) / 1000)*57.2958)/FWHM_TO_SIGMA
 
         print("Beam Width: ",self.beamlet_width, " sigma ---- Field of View width: ", self.telescope_beam_width , ' sigma ' )
-        if obs_data== None:
+
+        #############################################################################
+        No_coordinate_flag = False
+        try:
+            temp = coordinates[0,0]
+        except:
+            No_coordinate_flag= True
+
+        No_data_flag = False
+        try:
+            temp = obs_data[0]
+        except:
+            No_data_flag= True
+
+        if No_data_flag and No_coordinate_flag:
+            print("Pure Synthetic - No Data and No Coordinates")
             self.data = np.zeros((self.num_beams, self.tchans, self.fchans))
             self.labels = np.zeros((self.num_beams))
             self.coordinates = self.simulate_points(self.num_beams)
             
             self.adj_matrix = construct_guassian_adj(self.coordinates, self.beamlet_width )
             self.generate_complete_observation_blank()
+
+
+        elif No_data_flag:
+            print("Given Coordinates But No Data")
+            self.data = np.zeros((self.num_beams, self.tchans, self.fchans))
+            self.labels = np.zeros((self.num_beams))
+
+            self.adj_matrix = construct_guassian_adj(self.coordinates, self.beamlet_width )
+            self.generate_complete_observation_blank()
+
+
         else:
             self.data, self.coordinates = obs_data
             self.labels = np.zeros((self.num_beams)) 
+
             self.adj_matrix = construct_guassian_adj(self.coordinates, self.beamlet_width )
             self.generate_complete_observation_real()        
 
@@ -281,7 +310,6 @@ class Observation(object):
 
             for seti_id in SETI_INDEX:
                 self.labels[seti_id] = 1
-
 
     def extract_all(self):
         """
