@@ -10,49 +10,60 @@ import setigen as stg
 @jit(nopython=True)
 def distance(x1,x2):
     """
-    Compute Euclidean distance
+    Compute Euclidean distance between two vectors
 
     Parameters
     ----------
-    x1 : Sky point for obj 1 : [ra, dec] R^2 vector 
-    x2 : Sky point for obj 2 : [ra, dec] R^2 vector      
+    x1 : array
+        Sky point for obj 1 : [ra, dec] R^2 vector 
+    x2 : array
+        Sky point for obj 2 : [ra, dec] R^2 vector 
     Returns
     -------
-    Distance : 
-        Distance 
+    Distance : float
+        computes the euclidean norm 
     """
     return np.linalg.norm(x1-x2)
 
 @jit(nopython=True)
 def gaussian(x, mu, sig):
     """
-    Compute 1-D Guassian 
+    Compute 1-D Guassian given the value and the mean and deviation
 
     Parameters
     ----------
-    x : point value [1d]
-    mu : mean value 
-    sig : deviation  
+    x : float
+        point value [1d]
+    mu : float
+        mean value 
+    sig : float
+        deviation 
+
     Returns
     -------
-    Distance : 
-    guassian evaluated at x 
+    guassian : float
+        guassian evaluated at x 
     """
     return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
 
 @jit(nopython=True)
 def construct_guassian_adj(coordinates, sigma_beam ):
     """
-    Construct Guassian Adjacency Matrix 
+    Construct Guassian Adjacency Matrix. We do so by looping through and 
+    checking the connections and computing the guassian between the points and 
+    weighting the adjacency matrix that way.
 
     Parameters
     ----------
-    coordinates : n-beams of R^2 vectors 
-    sigma_beam : spread function of beam 
+    coordinates : array
+        n-beams of R^2 vectors 
+    sigma_beam : float
+        Sigma spread of beam 
+
     Returns
     -------
-    Distance : 
-        Adjacency matrix weighted by guassian function 
+    adj_matrix : array
+        Adjacency matrix weighted by guassian function
     """
     adj_matrix = np.zeros((64,64))
     for i in range(adj_matrix.shape[0]):
@@ -134,23 +145,32 @@ def generate_single_signal_no_background(start_index,
                                 num_time_chans = 16,
                                 df = 2.7939677238464355*u.Hz,
                                 dt =  18.253611008*u.s,
-                                fch1 = 6095.214842353016*u.MHz,
+                                fch1 = 900.000*u.MHz,
                                 ):
     """
-    generate SINGLE signal
+    generate SINGLE signal on a single beam/observation. 
 
     Parameters
     ----------
     start_index, 
-    snr: SNR of injected signal
-    drift : drift rate of signal
-    width :width of the signal in  [Hz]
-    mean : average background noise
-    num_freq_chans : number of freq channels in index
-    num_time_chans : number of time channels in index
-    df : freq resolution in the data
-    dt : time resolution in data
-    fch1 : start of frequency channel 
+    snr: float
+        SNR of injected signal
+    drift : float
+        drift rate of signal
+    width : float
+        width of the signal in  [Hz]
+    mean : float
+        average background noise
+    num_freq_chans : int
+        number of freq channels in index
+    num_time_chans : int
+        number of time channels in index
+    df : float
+        freq resolution in the data [Hz] astropy units
+    dt : float
+        time resolution in data [seconds] astropy units
+    fch1 : float
+        start of frequency channel [mhz] astropy units
     Returns
     -------
     Distance : 
@@ -181,25 +201,34 @@ def generate_multiple_signal_no_background(start_index,
                                 fch1 = 6095.214842353016*u.MHz,
                                 ):
     """
-    generate MULTIPLE signal
+    generate MULTIPLE signal on a single beam/observation. All with synthetic backgrounds
 
     Parameters
     ----------
     start_index, 
-    snr: SNR of injected signal
-    drift : drift rate of signal
-    width :width of the signal in  [Hz]
-    mean : average background noise
-    num_freq_chans : number of freq channels in index
-    num_time_chans : number of time channels in index
-    df : freq resolution in the data
-    dt : time resolution in data
-    fch1 : start of frequency channel 
+    snr: float
+        SNR of injected signal
+    drift : float
+        drift rate of signal
+    width : float
+        width of the signal in  [Hz]
+    mean : float
+        average background noise
+    num_freq_chans : int
+        number of freq channels in index
+    num_time_chans : int
+        number of time channels in index
+    df : float
+        freq resolution in the data [Hz] astropy units
+    dt : float
+        time resolution in data [seconds] astropy units
+    fch1 : float
+        start of frequency channel [mhz] astropy units
     Returns
     -------
     Distance : 
         spectrogram of fake inject data
-    """   
+    """  
     frame = stg.Frame(fchans=num_freq_chans*u.pixel,
                     tchans=num_time_chans*u.pixel,
                     df=df,
@@ -226,26 +255,36 @@ def generate_single_signal_real_background(start_index,
                                 dt =  18.253611008*u.s,
                                 fch1 = 6095.214842353016*u.MHz,):
     """
-    generate SINGLE signal
+    generate SINGLE signal REAL BACKGROUND on a single beam/observation. 
 
     Parameters
     ----------
     start_index, 
-    snr: SNR of injected signal
-    drift : drift rate of signal
-    width :width of the signal in  [Hz]
-    mean : average background noise
-    background : background to use
-    num_freq_chans : number of freq channels in index
-    num_time_chans : number of time channels in index
-    df : freq resolution in the data
-    dt : time resolution in data
-    fch1 : start of frequency channel 
+    snr: float
+        SNR of injected signal
+    drift : float
+        drift rate of signal
+    width : float
+        width of the signal in  [Hz]
+    background : array
+        SINGLE backgrounds to use
+    mean : float
+        average background noise
+    num_freq_chans : int
+        number of freq channels in index
+    num_time_chans : int
+        number of time channels in index
+    df : float
+        freq resolution in the data [Hz] astropy units
+    dt : float
+        time resolution in data [seconds] astropy units
+    fch1 : float
+        start of frequency channel [mhz] astropy units
     Returns
     -------
     Distance : 
         spectrogram of fake inject data
-    """   
+    """
     frame = stg.Frame(fchans=num_freq_chans*u.pixel,
                     tchans=num_time_chans*u.pixel,
                     df=df,
@@ -267,25 +306,36 @@ def generate_multiple_signal_real_background(start_index, snr, drift, width,back
                                                         fch1 = 6095.214842353016*u.MHz,
                                                         ):
     """
-    generate MULTIPLE signal
+    generate MULTIPLE signal REAL BACKGROUND on a single beam/observation. 
 
     Parameters
     ----------
     start_index, 
-    snr: SNR of injected signal
-    drift : drift rate of signal
-    width :width of the signal in  [Hz]
-    mean : average background noise
-    num_freq_chans : number of freq channels in index
-    num_time_chans : number of time channels in index
-    df : freq resolution in the data
-    dt : time resolution in data
-    fch1 : start of frequency channel 
+    snr: float
+        SNR of injected signal
+    drift : float
+        drift rate of signal
+    width : float
+        width of the signal in  [Hz]
+    background : array
+        backgrounds to use
+    mean : float
+        average background noise
+    num_freq_chans : int
+        number of freq channels in index
+    num_time_chans : int
+        number of time channels in index
+    df : float
+        freq resolution in the data [Hz] astropy units
+    dt : float
+        time resolution in data [seconds] astropy units
+    fch1 : float
+        start of frequency channel [mhz] astropy units
     Returns
     -------
     Distance : 
         spectrogram of fake inject data
-    """   
+    """
     frame = stg.Frame(fchans=num_freq_chans*u.pixel,
                     tchans=num_time_chans*u.pixel,
                     df=df,
@@ -307,13 +357,17 @@ def calc_rfi_snr(RFI_POINT, deviation, coordinates, snr_base=30):
 
     Parameters
     ----------
-    RFI_POINT : single R^2 vector for where the signal originate from 
-    deviation : signal decay as standard deviation
-    coordinates : coordinates of beams 
-    snr_base : the base SNR of the RFI signal
+    RFI_POINT : array [vector]
+        single R^2 vector for where the signal originate from 
+    deviation : float
+        signal decay as standard deviation
+    coordinates : array
+        coordinates of beams 
+    snr_base : float
+        the base SNR of the RFI signal
     Returns
     -------
-    Distance : 
+    SNR_vals : list
         list of RFI signals as a function of Guassian and distance to the point
     """   
     SNR_vals =[]

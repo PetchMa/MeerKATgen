@@ -136,7 +136,8 @@ class Observation(object):
 
 
         else:
-            self.data, self.coordinates = obs_data
+            print("Given Real Data and real coordinates")
+            self.data, self.coordinates  = obs_data
             self.labels = np.zeros((self.num_beams)) 
 
             self.adj_matrix = construct_guassian_adj(self.coordinates, self.beamlet_width )

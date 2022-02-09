@@ -11,3 +11,4 @@ astropy
 numba
 sphinx-book-theme
 sphinx
+keyring
