@@ -5,6 +5,8 @@ geometric inference models for multibeam telescopes.
 
 **Under construction** 
 [Read docs can be found here ](https://meerkatgen.readthedocs.io/en/latest/index.html)
+
+**Under Tutorial** 
 [Tutorial Notebook Found Here](https://colab.research.google.com/drive/1bbvyIjla7tEnCzsvKdfFT1wQ_bVsfvFu?usp=sharing)
 
 ## Simulation Methods
